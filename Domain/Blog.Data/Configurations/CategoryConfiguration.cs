@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace eShopSolution.Data.Configurations
+namespace Blog.Data.Configurations
 {
     internal class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {

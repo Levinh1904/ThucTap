@@ -11,3 +11,16 @@ D:\Code\NET\Thực Tập\ThucTap\Domain\Blog.Data\obj\Debug\netcoreapp3.1\Blog.D
 D:\Code\NET\Thực Tập\ThucTap\Domain\Blog.Data\obj\Debug\netcoreapp3.1\Blog.Data.dll
 D:\Code\NET\Thực Tập\ThucTap\Domain\Blog.Data\obj\Debug\netcoreapp3.1\Blog.Data.pdb
 D:\Code\NET\Thực Tập\ThucTap\Domain\Blog.Data\obj\Debug\netcoreapp3.1\Blog.Data.genruntimeconfig.cache
+C:\Users\LeVinh\Documents\GitHub\ThucTap\Domain\Blog.Data\bin\Debug\netcoreapp3.1\Blog.Data.deps.json
+C:\Users\LeVinh\Documents\GitHub\ThucTap\Domain\Blog.Data\bin\Debug\netcoreapp3.1\Blog.Data.runtimeconfig.json
+C:\Users\LeVinh\Documents\GitHub\ThucTap\Domain\Blog.Data\bin\Debug\netcoreapp3.1\Blog.Data.runtimeconfig.dev.json
+C:\Users\LeVinh\Documents\GitHub\ThucTap\Domain\Blog.Data\bin\Debug\netcoreapp3.1\Blog.Data.dll
+C:\Users\LeVinh\Documents\GitHub\ThucTap\Domain\Blog.Data\bin\Debug\netcoreapp3.1\Blog.Data.pdb
+C:\Users\LeVinh\Documents\GitHub\ThucTap\Domain\Blog.Data\obj\Debug\netcoreapp3.1\Blog.Data.csproj.AssemblyReference.cache
+C:\Users\LeVinh\Documents\GitHub\ThucTap\Domain\Blog.Data\obj\Debug\netcoreapp3.1\Blog.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LeVinh\Documents\GitHub\ThucTap\Domain\Blog.Data\obj\Debug\netcoreapp3.1\Blog.Data.AssemblyInfoInputs.cache
+C:\Users\LeVinh\Documents\GitHub\ThucTap\Domain\Blog.Data\obj\Debug\netcoreapp3.1\Blog.Data.AssemblyInfo.cs
+C:\Users\LeVinh\Documents\GitHub\ThucTap\Domain\Blog.Data\obj\Debug\netcoreapp3.1\Blog.Data.csproj.CoreCompileInputs.cache
+C:\Users\LeVinh\Documents\GitHub\ThucTap\Domain\Blog.Data\obj\Debug\netcoreapp3.1\Blog.Data.dll
+C:\Users\LeVinh\Documents\GitHub\ThucTap\Domain\Blog.Data\obj\Debug\netcoreapp3.1\Blog.Data.pdb
+C:\Users\LeVinh\Documents\GitHub\ThucTap\Domain\Blog.Data\obj\Debug\netcoreapp3.1\Blog.Data.genruntimeconfig.cache

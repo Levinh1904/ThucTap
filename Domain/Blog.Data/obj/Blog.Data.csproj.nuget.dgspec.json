@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Code\\NET\\Thực Tập\\ThucTap\\Domain\\Blog.Data\\Blog.Data.csproj": {}
+    "C:\\Users\\LeVinh\\Documents\\GitHub\\ThucTap\\Domain\\Blog.Data\\Blog.Data.csproj": {}
   },
   "projects": {
-    "D:\\Code\\NET\\Thực Tập\\ThucTap\\Domain\\Blog.Data\\Blog.Data.csproj": {
+    "C:\\Users\\LeVinh\\Documents\\GitHub\\ThucTap\\Domain\\Blog.Data\\Blog.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Code\\NET\\Thực Tập\\ThucTap\\Domain\\Blog.Data\\Blog.Data.csproj",
+        "projectUniqueName": "C:\\Users\\LeVinh\\Documents\\GitHub\\ThucTap\\Domain\\Blog.Data\\Blog.Data.csproj",
         "projectName": "Blog.Data",
-        "projectPath": "D:\\Code\\NET\\Thực Tập\\ThucTap\\Domain\\Blog.Data\\Blog.Data.csproj",
+        "projectPath": "C:\\Users\\LeVinh\\Documents\\GitHub\\ThucTap\\Domain\\Blog.Data\\Blog.Data.csproj",
         "packagesPath": "C:\\Users\\LeVinh\\.nuget\\packages\\",
-        "outputPath": "D:\\Code\\NET\\Thực Tập\\ThucTap\\Domain\\Blog.Data\\obj\\",
+        "outputPath": "C:\\Users\\LeVinh\\Documents\\GitHub\\ThucTap\\Domain\\Blog.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\LeVinh\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -65,6 +65,14 @@
               "version": "[3.1.1, )"
             },
             "Microsoft.Extensions.Configuration": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.Extensions.Configuration.FileExtensions": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
               "target": "Package",
               "version": "[3.1.1, )"
             }
