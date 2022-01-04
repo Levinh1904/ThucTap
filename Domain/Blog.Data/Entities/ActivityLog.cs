@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
 
 namespace Blog.Data.Entities
 {
+    [Table("ActivityLogs")]
     public class ActivityLog
     {
         public int Id { get; set; }

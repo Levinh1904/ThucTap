@@ -119,8 +119,8 @@ namespace Blog.Data.Migrations
                 name: "Commands",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Id = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    Name = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -142,12 +142,12 @@ namespace Blog.Data.Migrations
                 name: "Functions",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Url = table.Column<string>(nullable: true),
+                    Id = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    Name = table.Column<string>(maxLength: 200, nullable: false),
+                    Url = table.Column<string>(maxLength: 200, nullable: false),
                     SortOrder = table.Column<int>(nullable: false),
-                    ParentId = table.Column<string>(nullable: true),
-                    Icon = table.Column<string>(nullable: true)
+                    ParentId = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
+                    Icon = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -158,9 +158,9 @@ namespace Blog.Data.Migrations
                 name: "Permissions",
                 columns: table => new
                 {
-                    FunctionId = table.Column<string>(nullable: false),
-                    RoleId = table.Column<string>(nullable: true),
-                    CommandId = table.Column<string>(nullable: true)
+                    FunctionId = table.Column<string>(maxLength: 50, nullable: false),
+                    RoleId = table.Column<string>(maxLength: 50, nullable: true),
+                    CommandId = table.Column<string>(maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
