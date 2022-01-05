@@ -1,181 +1,217 @@
-﻿using System;
-using System.Threading.Tasks;
-using Blog.Application.System.Users;
-using Blog.Data.Entities;
+﻿using EmailService;
+using Blog.ApiIntegration;
+using Blog.Utilities.Constants;
 using Blog.ViewModels.System.Users;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Blog.BackendApi.Controllers
+namespace Blog.WebApp.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Authorize]
-    public class UsersController : ControllerBase
-    {
-        private readonly IUserService _userService;
-        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IUserService userService, ILogger<UsersController> logger)
+    public class LoginController : Controller
+    {
+        private readonly IUserApiClient _userApiClient;
+        private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public LoginController(IUserApiClient userApiClient, 
+            IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
-            _userService = userService;
-            _logger = logger;
+            _userApiClient = userApiClient;
+            _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpPost("authenticate")]
-        [AllowAnonymous]
-        /* Dùng FromBody thì lấy từ json đã serialize bên UserApiClient truyền vô được
-        còn FromForm thì lấy từ form */
-        public async Task<IActionResult> Authenticate([FromBody] LoginRequest request)
+        [HttpGet("{login}")]
+        public async Task<IActionResult> Login()
+        {
+            return View();
+        }
+        [HttpPost("{login}")]
+        public async Task<IActionResult> Login(LoginRequest request)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return View(request);
 
-            // Truyền request vào hàm Authencate của UserService bên Domain và trả về một JWT
-            var result = await _userService.Authencate(request);
+            var result = await _userApiClient.Authenticate(request);
 
             if (!result.IsSuccessed)
             {
-                return BadRequest(result);
+                ModelState.AddModelError("", result.Message);
+                return View(request);
             }
 
-            return Ok(result);
+            if (request.RememberMe == true)
+            {
+                CookieOptions option = new CookieOptions();
+                option.Expires = DateTime.Now.AddMonths(1);
+                Response.Cookies.Append("customerToken", result.ResultObj, option);
+            }
+
+            var userPrincipal = this.ValidateToken(result.ResultObj);
+
+            var authProperties = new AuthenticationProperties
+            {
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMonths(1),
+                IsPersistent = request.RememberMe
+            };
+
+            HttpContext.Session.SetString(SystemConstants.AppSettings.Token, result.ResultObj);
+
+            await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        userPrincipal,
+                        authProperties);
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
-        // Cho phép người lạ truy cập
-        [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> Logout()
+        {
+            Response.Cookies.Delete("customerToken");
+            await HttpContext.SignOutAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
+        }
+        [HttpGet("{register}")]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost("{register}")]
+        public async Task<IActionResult> Register(RegisterRequest registerRequest)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return View(registerRequest);
 
-            var result = await _userService.Register(request);
+            var result = await _userApiClient.RegisterUser(registerRequest);
+
             if (!result.IsSuccessed)
             {
-                return BadRequest(result);
+                ModelState.AddModelError("", result.Message);
+                return View(registerRequest);
             }
-            return Ok(result);
+
+            var token = result.ResultObj;
+            var user = await _userApiClient.GetByUserName(registerRequest.UserName);
+            var confirmationLink = Url.Action(nameof(ConfirmEmail), "Login", new { token, email = user.ResultObj.Email }, Request.Scheme);
+            var message = await MailUtils.MailUtils.SendGmail("Vinhvanvanvinh1612@gmail.com", user.ResultObj.Email,
+                                                            "Link xác nhận email", confirmationLink,
+                                                             "your_email_here", "your_password_here");
+
+            var email = new EmailService.EmailService();
+            email.Send("Vinhvanvanvinh1612@gmail.com", user.ResultObj.Email, "XÁC NHẬN TÀI KHOẢN", confirmationLink);
+            return RedirectToAction(nameof(SuccessRegistration));
         }
 
-        //PUT: http://localhost/api/users/id
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] UserUpdateRequest request)
+        [HttpGet("{confirmEmail}")]
+        public async Task<IActionResult> ConfirmEmail(string token, string email)
+        {
+            var confirmEmailVm = new ConfirmEmailViewModel()
+            {
+                token = token,
+                email = email
+            };
+
+            var result = await _userApiClient.ConfirmEmail(confirmEmailVm);
+
+            return View(result.IsSuccessed ? nameof(ConfirmEmail) : "Error");
+        }
+
+        [HttpGet]
+        public IActionResult SuccessRegistration()
+        {
+            return View();
+        }
+
+        private ClaimsPrincipal ValidateToken(string jwtToken)
+        {
+            IdentityModelEventSource.ShowPII = true;
+
+            SecurityToken validatedToken;
+            TokenValidationParameters validationParameters = new TokenValidationParameters();
+
+            validationParameters.ValidateLifetime = true;
+
+            validationParameters.ValidAudience = _configuration["Tokens:Issuer"];
+            validationParameters.ValidIssuer = _configuration["Tokens:Issuer"];
+            validationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
+
+            ClaimsPrincipal principal = new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out validatedToken);
+
+            return principal;
+        }
+
+        [HttpGet("{forgotPassword}")]
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost("{forgotPassword}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel request)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+                return View(request);
 
-            var result = await _userService.Update(id, request);
-            if (!result.IsSuccessed)
-            {
-                return BadRequest(result);
-            }
-            return Ok(result);
+            var token = await _userApiClient.ForgotPassword(request);
+            var passwordResetLink = Url.Action(nameof(ResetPassword), "Login",
+                                    new { email = request.Email, token = token.ResultObj }, Request.Scheme);
+            var message = await MailUtils.MailUtils.SendGmail("Vinhvanvanvinh1612@gmail.com", request.Email,
+                                                       "Link khôi phục mật khẩu", passwordResetLink,
+                                                        "your_email_here", "your_password_here");
+
+            var email = new EmailService.EmailService();
+            email.Send("Vinhvanvanvinh1612@gmail.com", request.Email, "Link khôi phục mật khẩu", passwordResetLink);
+
+            return View("ForgotPasswordConfirmation");
         }
 
-        [HttpPut("{id}/roles")]
-        public async Task<IActionResult> RoleAssign(Guid id, [FromBody] RoleAssignRequest request)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var result = await _userService.RoleAssign(id, request);
-            if (!result.IsSuccessed)
-            {
-                return BadRequest(result);
-            }
-            return Ok(result);
-        }
-
-        // Đường dẫn ví dụ của GetAllPaging
-        // http://localhost/api/users/paging?pageIndex=1&pageSize=10&Keyword='Hy'
-        [HttpGet("paging")]
-        public async Task<IActionResult> GetAllPaging([FromQuery] GetUserPagingRequest request)
-        {
-            var products = await _userService.GetUsersPaging(request);
-            return Ok(products);
-        }
-
-        [HttpGet("{id}")]
+        [HttpGet("{resetPassword}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetById(Guid id)
+        public IActionResult ResetPassword(string token, string email)
         {
-            var user = await _userService.GetById(id);
-            return Ok(user);
+            if (token == null || email == null)
+            {
+                ModelState.AddModelError("", "Token khôi phục mật khẩu không phù hợp");
+            }
+            return View();
         }
 
-        [HttpGet("getByUserName/{userName}")]
+        [HttpPost("{resetPassword}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetByUserName(string userName)
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            var user = await _userService.GetByUserName(userName);
-            if (!user.IsSuccessed)
+            var resetPasswordVm = new ResetPasswordViewModel()
             {
-                return BadRequest(user);
-            }
-            return Ok(user);
-        }
+                Token = model.Token,
+                Email = model.Email,
+                Password = model.Password,
+                ConfirmPassword = model.ConfirmPassword
+            };
 
-        [HttpGet("getAllUser")]
-        public async Task<IActionResult> GetAll()
-        {
-            var allUser = await _userService.GetAll();
-            return Ok(allUser);
-        }
+            var result = await _userApiClient.ResetPassword(resetPasswordVm);
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var result = await _userService.Delete(id);
-            return Ok(result);
-        }
-
-        [HttpPost("changePassword")]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordViewModel model)
-        {
-            var result = await _userService.ChangePassword(model);
-            if (!result.IsSuccessed)
-            {
-                return BadRequest(result);
-            }
-            return Ok(result);
-        }
-
-        [HttpPost("confirmEmail")]
-        [AllowAnonymous]
-        public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailViewModel request)
-        {
-            var result = await _userService.ConfirmEmail(request);
-            if (!result.IsSuccessed)
-            {
-                return BadRequest(result);
-            }
-            return Ok(result);
-        }
-
-        [HttpPost("forgotPassword")]
-        [AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordViewModel request)
-        {
-            var result = await _userService.ForgotPassword(request);
-            if (!result.IsSuccessed)
-            {
-                return BadRequest(result);
-            }
-            return Ok(result);
-        }
-
-        [HttpPost("resetPassword")]
-        [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel request)
-        {
-            var result = await _userService.ResetPassword(request);
-            if (!result.IsSuccessed)
-            {
-                return BadRequest(result);
-            }
-            return Ok(result);
+            return View(result.IsSuccessed ? "ResetPasswordConfirmation" : "Error");
         }
     }
 }
