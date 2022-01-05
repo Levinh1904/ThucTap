@@ -1,0 +1,10 @@
+C:\Users\LeVinh\source\repos\Blog\Blog.ViewModels\bin\Debug\netcoreapp3.1\Blog.ViewModels.deps.json
+C:\Users\LeVinh\source\repos\Blog\Blog.ViewModels\bin\Debug\netcoreapp3.1\Blog.ViewModels.dll
+C:\Users\LeVinh\source\repos\Blog\Blog.ViewModels\bin\Debug\netcoreapp3.1\Blog.ViewModels.pdb
+C:\Users\LeVinh\source\repos\Blog\Blog.ViewModels\obj\Debug\netcoreapp3.1\Blog.ViewModels.csproj.AssemblyReference.cache
+C:\Users\LeVinh\source\repos\Blog\Blog.ViewModels\obj\Debug\netcoreapp3.1\Blog.ViewModels.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LeVinh\source\repos\Blog\Blog.ViewModels\obj\Debug\netcoreapp3.1\Blog.ViewModels.AssemblyInfoInputs.cache
+C:\Users\LeVinh\source\repos\Blog\Blog.ViewModels\obj\Debug\netcoreapp3.1\Blog.ViewModels.AssemblyInfo.cs
+C:\Users\LeVinh\source\repos\Blog\Blog.ViewModels\obj\Debug\netcoreapp3.1\Blog.ViewModels.csproj.CoreCompileInputs.cache
+C:\Users\LeVinh\source\repos\Blog\Blog.ViewModels\obj\Debug\netcoreapp3.1\Blog.ViewModels.dll
+C:\Users\LeVinh\source\repos\Blog\Blog.ViewModels\obj\Debug\netcoreapp3.1\Blog.ViewModels.pdb

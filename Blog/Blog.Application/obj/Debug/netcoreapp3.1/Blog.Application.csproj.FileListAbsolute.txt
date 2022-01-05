@@ -1,0 +1,17 @@
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\obj\Debug\netcoreapp3.1\Blog.Application.csproj.AssemblyReference.cache
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\obj\Debug\netcoreapp3.1\Blog.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\obj\Debug\netcoreapp3.1\Blog.Application.AssemblyInfoInputs.cache
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\obj\Debug\netcoreapp3.1\Blog.Application.AssemblyInfo.cs
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\obj\Debug\netcoreapp3.1\Blog.Application.csproj.CoreCompileInputs.cache
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\bin\Debug\netcoreapp3.1\Blog.Application.deps.json
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\bin\Debug\netcoreapp3.1\Blog.Application.dll
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\bin\Debug\netcoreapp3.1\Blog.Application.pdb
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\bin\Debug\netcoreapp3.1\Blog.Data.dll
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\bin\Debug\netcoreapp3.1\Blog.Utilities.dll
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\bin\Debug\netcoreapp3.1\Blog.ViewModels.dll
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\bin\Debug\netcoreapp3.1\Blog.Data.pdb
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\bin\Debug\netcoreapp3.1\Blog.Utilities.pdb
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\bin\Debug\netcoreapp3.1\Blog.ViewModels.pdb
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\obj\Debug\netcoreapp3.1\Blog.Application.csproj.CopyComplete
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\obj\Debug\netcoreapp3.1\Blog.Application.dll
+C:\Users\LeVinh\source\repos\Blog\Blog.Application\obj\Debug\netcoreapp3.1\Blog.Application.pdb

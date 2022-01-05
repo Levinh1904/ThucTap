@@ -1,0 +1,10 @@
+C:\Users\LeVinh\source\repos\Blog\Blog.Utilities\bin\Debug\netcoreapp3.1\Blog.Utilities.deps.json
+C:\Users\LeVinh\source\repos\Blog\Blog.Utilities\bin\Debug\netcoreapp3.1\Blog.Utilities.dll
+C:\Users\LeVinh\source\repos\Blog\Blog.Utilities\bin\Debug\netcoreapp3.1\Blog.Utilities.pdb
+C:\Users\LeVinh\source\repos\Blog\Blog.Utilities\obj\Debug\netcoreapp3.1\Blog.Utilities.csproj.AssemblyReference.cache
+C:\Users\LeVinh\source\repos\Blog\Blog.Utilities\obj\Debug\netcoreapp3.1\Blog.Utilities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\LeVinh\source\repos\Blog\Blog.Utilities\obj\Debug\netcoreapp3.1\Blog.Utilities.AssemblyInfoInputs.cache
+C:\Users\LeVinh\source\repos\Blog\Blog.Utilities\obj\Debug\netcoreapp3.1\Blog.Utilities.AssemblyInfo.cs
+C:\Users\LeVinh\source\repos\Blog\Blog.Utilities\obj\Debug\netcoreapp3.1\Blog.Utilities.csproj.CoreCompileInputs.cache
+C:\Users\LeVinh\source\repos\Blog\Blog.Utilities\obj\Debug\netcoreapp3.1\Blog.Utilities.dll
+C:\Users\LeVinh\source\repos\Blog\Blog.Utilities\obj\Debug\netcoreapp3.1\Blog.Utilities.pdb
